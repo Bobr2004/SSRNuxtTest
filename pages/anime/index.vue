@@ -4,27 +4,27 @@ definePageMeta({
 });
 
 const name = ref("");
-const requestType = ref("GET");
+const requestType = ref("POST");
 
-const animeToCreate = ref("");
+const animeToCreate = ref("22");
 
 const res = ref();
 
 const makeRequest = async () => {
-   if (requestType === "POST") {
-      const res = await useFetch("/api/anime",{
+   if (requestType.value === "POST") {
+      await fetch("/api/anime", {
          method: "POST",
-
-      })
+         body: JSON.stringify({ name: "china" })
+      }).then((res) => res.json());
    } else {
-      const { data } = await useFetch("/api/anime", {
-         method: requestType,
-         params: {
-            name
-         }
-      });
-      res.value = data.value;
-      console.log(data.value);
+      console.log("oleg");
+      const data = await fetch(`/api/anime?name=${name.value}`, {
+         method: "GET"
+      }).then((res) => res.json());
+
+      console.log(data)
+
+      res.value = data;
    }
 };
 </script>
